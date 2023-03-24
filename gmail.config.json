@@ -1,0 +1,6 @@
+{
+  "clientId": "mongodb+srv://coreysumma:Yeroc123@cluster0.m8febck.mongodb.net/react-gmail?retryWrites=true&w=majority",
+  "apiKey": "AIzaSyB3Bl2bBu4Y0ZLnLesTfFXg0j3vE5mhcuE",
+  "scope": "https://www.googleapis.com/auth/gmail.readonly",
+  "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"]
+}
