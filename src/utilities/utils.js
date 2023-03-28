@@ -30,12 +30,16 @@ export async function displayMessage(token, messages) {
       );
 
       const payload = res.data.payload;
-      console.log("this is my payload --->", payload)
+      console.log("this is my payload --->", payload);
 
       let raw = "";
       if (payload.mimeType === "multipart/alternative") {
-        const plainTextPart = payload.parts.find((part) => part.mimeType === "text/plain");
-        const htmlPart = payload.parts.find((part) => part.mimeType === "text/html");
+        const plainTextPart = payload.parts.find(
+          (part) => part.mimeType === "text/plain"
+        );
+        const htmlPart = payload.parts.find(
+          (part) => part.mimeType === "text/html"
+        );
 
         raw = plainTextPart ? plainTextPart.body.data : htmlPart.body.data;
       } else if (payload.mimeType === "text/plain") {
@@ -44,9 +48,22 @@ export async function displayMessage(token, messages) {
         raw = payload.body.data;
       }
 
-      console.log("this is my raw email data --->", raw)
+      console.log("this is my raw email data --->", raw);
 
+      const headers = res.data.payload.headers;
+      const relevantHeaders = headers.reduce((acc, header) => {
+        if (["Date", "From", "To"].includes(header.name)) {
+          acc[header.name] = header.value;
+        }
+        return acc;
+      }, {});
 
+      fetchedMessages.push({
+        id: message.id,
+        snippet: res.data.snippet,
+        decodedRaw: atob(base64UrlToBase64(raw)),
+        ...relevantHeaders,
+      });
     } catch (err) {
       console.log(err);
     }

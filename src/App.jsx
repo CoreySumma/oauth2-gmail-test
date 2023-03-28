@@ -53,7 +53,7 @@ function App() {
             Accept: "application/json",
           },
           params: {
-            maxResults: 5,
+            maxResults: 50,
             includeSpamTrash: false,
           },
         })
