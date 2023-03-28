@@ -8,7 +8,9 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
   const [displayMessages, setDisplayMessages] = useState([]);
+  const [emailContent, setEmailContent] = useState([]);
   const [token, setToken] = useState(null);
+
 
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -51,7 +53,7 @@ function App() {
             Accept: "application/json",
           },
           params: {
-            maxResults: 10,
+            maxResults: 5,
             includeSpamTrash: false,
           },
         })
@@ -60,7 +62,7 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, [token, profile]);
+  }, [profile]);
 
   useEffect(() => {
     if (token && profile && profile.email && messages.length > 0) {
@@ -70,7 +72,7 @@ function App() {
       };
       fetchMessages();
     }
-  }, [token, profile, messages]);
+  }, [profile, messages]);
 
   const logOut = () => {
     setUser(null);
@@ -131,7 +133,7 @@ function App() {
             <br />
           </div>
         ) : (
-          <button onClick={() => login()}>Sign in with Google </button>
+          <button onClick={() => login()}>Sign in with Google</button>
         )}
       </div>
     </>

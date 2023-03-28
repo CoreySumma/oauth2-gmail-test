@@ -17,7 +17,7 @@ export function base64ToUint8Array(base64) {
 
 export async function displayMessage(token, messages) {
   const fetchedMessages = [];
-  for (const message of messages) {
+  for (let message of messages) {
     try {
       const res = await axios.get(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages/${message.id}`,
@@ -30,34 +30,23 @@ export async function displayMessage(token, messages) {
       );
 
       const payload = res.data.payload;
-      const raw = payload.parts.find((part) => part.mimeType === "text/plain")
-        .body.data;
+      console.log("this is my payload --->", payload)
 
-        console.log("this is my raw email data --->", raw)
+      let raw = "";
+      if (payload.mimeType === "multipart/alternative") {
+        const plainTextPart = payload.parts.find((part) => part.mimeType === "text/plain");
+        const htmlPart = payload.parts.find((part) => part.mimeType === "text/html");
 
-      const data = res.data;
-      let decodedRaw = "";
-      if (raw) {
-        console.log(raw);
-        const textDecoder = new TextDecoder();
-        decodedRaw = textDecoder.decode(
-          base64ToUint8Array(base64UrlToBase64(raw))
-        );
+        raw = plainTextPart ? plainTextPart.body.data : htmlPart.body.data;
+      } else if (payload.mimeType === "text/plain") {
+        raw = payload.body.data;
+      } else if (payload.mimeType === "text/html") {
+        raw = payload.body.data;
       }
-      const headers = res.data.payload.headers;
-      const relevantHeaders = headers.reduce((acc, header) => {
-        if (["Date", "From", "To"].includes(header.name)) {
-          acc[header.name] = header.value;
-        }
-        return acc;
-      }, {});
 
-      fetchedMessages.push({
-        id: data.id,
-        snippet: data.snippet,
-        decodedRaw: decodedRaw,
-        ...relevantHeaders,
-      });
+      console.log("this is my raw email data --->", raw)
+
+
     } catch (err) {
       console.log(err);
     }
