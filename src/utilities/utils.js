@@ -30,9 +30,30 @@ export function base64ToUint8Array(base64) {
   }
 }
 
-export function removeLinks(text) {
+export function finalCleanup(text) {
+  // Remove CSS styles between <style> tags
+  text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+
+  // Remove inline CSS styles
+  text = text.replace(/style="[\s\S]*?"/gi, '');
+
+  // Remove content between <script> tags
+  text = text.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+
+  // Remove comments
+  text = text.replace(/<!--[\s\S]*?-->/g, '');
+
+  // Remove URLs
   const urlPattern = /(?:https?|ftp):\/\/[\n\S]+/gi;
-  return text.replace(urlPattern, '');
+  text = text.replace(urlPattern, '');
+
+  // Remove CSS styles not enclosed in tags
+  const cssPattern = /[@.][^;}]+[{][^}]*[}]/gi;
+  text = text.replace(cssPattern, '');
+
+  // Remove content between curly braces
+  const curlyBracesPattern = /\{[^\}]*\}/gi;
+  return text.replace(curlyBracesPattern, '');
 }
 
 
@@ -98,7 +119,7 @@ export async function displayMessage(token, messages) {
         const base64String = base64UrlToBase64(raw);
         decodedRaw = Base64.decode(base64String);
         plainText = convert(decodedRaw, options);
-        plainTextNoLinks = removeLinks(plainText);
+        plainTextNoLinks = finalCleanup(plainText);
         console.log("This is my plain text ---> ", plainText);
         console.log("MIME type of the successful email:", payload.mimeType);
         console.log("Successful email parts:", payload.parts);
