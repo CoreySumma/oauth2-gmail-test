@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Base64 } from "js-base64";
+import { convert } from "html-to-text";
+
 
 export function base64UrlToBase64(base64Url) {
   if (!base64Url) return "";
@@ -27,6 +29,12 @@ export function base64ToUint8Array(base64) {
     return new Uint8Array(0);
   }
 }
+
+export function removeLinks(text) {
+  const urlPattern = /(?:https?|ftp):\/\/[\n\S]+/gi;
+  return text.replace(urlPattern, '');
+}
+
 
 export async function displayMessage(token, messages) {
   const fetchedMessages = [];
@@ -74,10 +82,24 @@ export async function displayMessage(token, messages) {
         return acc;
       }, {});
 
+      let plainTextNoLinks = "";
       let decodedRaw = "";
+      let plainText = "";
+      let options = {
+        wordwrap: 100,
+        ignoreHref: true,
+        ignoreImage: true,
+        noAnchorUrl: true,
+        tables: false,
+        linkHrefBaseUrl: '',
+        hideLinkHrefIfSameAsText: true,
+      }
       try {
         const base64String = base64UrlToBase64(raw);
         decodedRaw = Base64.decode(base64String);
+        plainText = convert(decodedRaw, options);
+        plainTextNoLinks = removeLinks(plainText);
+        console.log("This is my plain text ---> ", plainText);
         console.log("MIME type of the successful email:", payload.mimeType);
         console.log("Successful email parts:", payload.parts);
       } catch (err) {
@@ -89,6 +111,7 @@ export async function displayMessage(token, messages) {
         id: message.id,
         snippet: res.data.snippet,
         decodedRaw,
+        plainTextNoLinks,
         ...relevantHeaders,
       });
     } catch (err) {

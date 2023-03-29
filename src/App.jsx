@@ -8,7 +8,6 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
   const [displayMessages, setDisplayMessages] = useState([]);
-  const [emailContent, setEmailContent] = useState([]);
   const [token, setToken] = useState(null);
 
 
@@ -53,7 +52,7 @@ function App() {
             Accept: "application/json",
           },
           params: {
-            maxResults: 10,
+            maxResults: 35,
             includeSpamTrash: false,
           },
         })
@@ -119,7 +118,7 @@ function App() {
                           rel="noreferrer"
                           href={`https://mail.google.com/mail/u/0/#inbox/${message.id}`}
                         >
-                          {message.decodedRaw}
+                          {message.plainTextNoLinks}
                         </a>
                       </td>
                     </tr>
