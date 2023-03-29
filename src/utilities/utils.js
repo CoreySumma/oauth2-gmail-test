@@ -28,7 +28,7 @@ export async function displayMessage(token, messages) {
           },
         }
       );
-
+      console.log("this is my res --->", res);
       const payload = res.data.payload;
       console.log("this is my payload --->", payload);
 
@@ -58,10 +58,17 @@ export async function displayMessage(token, messages) {
         return acc;
       }, {});
 
+      let decodedRaw = "";
+      try {
+        decodedRaw = atob(base64UrlToBase64(raw));
+      } catch (err) {
+        console.error("Failed to decode raw email data:", raw, err);
+      }
+
       fetchedMessages.push({
         id: message.id,
         snippet: res.data.snippet,
-        decodedRaw: atob(base64UrlToBase64(raw)),
+        decodedRaw,
         ...relevantHeaders,
       });
     } catch (err) {
