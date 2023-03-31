@@ -97,7 +97,7 @@ export async function displayMessage(token, messages) {
 
       const headers = res.data.payload.headers;
       const relevantHeaders = headers.reduce((acc, header) => {
-        if (["Date", "From", "To"].includes(header.name)) {
+        if (["Date", "From", "To", "Subject"].includes(header.name)) {
           acc[header.name] = header.value;
         }
         return acc;
@@ -129,7 +129,7 @@ export async function displayMessage(token, messages) {
       }
 
       fetchedMessages.push({
-        id: message.id,
+        id: res.data.subject,
         snippet: res.data.snippet,
         decodedRaw,
         plainTextNoLinks,

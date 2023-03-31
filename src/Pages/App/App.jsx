@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import "./App.css"
+import "./App.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { displayMessage } from "../../utilities/utils";
 
-function App() {
+export default function App() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
   const [displayMessages, setDisplayMessages] = useState([]);
   const [token, setToken] = useState(null);
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -22,6 +23,10 @@ function App() {
     scope:
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gmail.readonly",
   });
+
+  const handleEmailClick = (message) => {
+    setSelectedMessage(message);  
+  };
 
   useEffect(() => {
     if (user) {
@@ -84,48 +89,45 @@ function App() {
   return (
     <>
       <div className="App">
-        <h2>React Google Login</h2>
         <br />
         <br />
         {profile ? (
           <div>
             <img src={profile.picture} alt="user image" />
-            <h3>Hello, {profile.name}</h3>
-            <p>Please wait while I fetch: <u>{profile.email}'s</u> Email data</p>
-            <h3>Emails</h3>
-            {messages.map((message) => (
-              <p key={message.id}>{message.id}</p>
-            ))}
-            <div>
-              <h3>Messages</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayMessages.map((message) => (
-                    <tr key={message.id}>
-                      <td>{message.Date}</td>
-                      <td>{message.From}</td>
-                      <td>
-                        <a
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://mail.google.com/mail/u/0/#inbox/${message.id}`}
-                        >
-                          {message.plainTextNoLinks}
-                        </a>
-                      </td>
+            <h1>Hello, {profile.name}</h1>
+            <h2>
+              Please wait while I fetch: <u>{profile.email}'s</u> Email data
+            </h2>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>From</th>
+                      <th>Subject</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+            <div className="content">
+              <div className="email-list card">
+                <table>
+                  <tbody>
+                    {displayMessages.map((message) => (
+                      <tr key={message.id} onClick={() => handleEmailClick(message)}>
+                        <td>{message.Date}</td>
+                        <td>{message.From}</td>
+                        <td>{message.Subject}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="summary card">
+                <h3>Summary</h3>
+                {selectedMessage && (
+                  <div>
+                    <p>{selectedMessage.plainTextNoLinks}</p>
+                  </div>
+                )}
+              </div>
             </div>
-
             <button onClick={logOut}>Log out</button>
             <br />
             <br />
@@ -138,4 +140,4 @@ function App() {
   );
 }
 
-export default App;
+
