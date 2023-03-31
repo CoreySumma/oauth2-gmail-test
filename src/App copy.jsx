@@ -10,7 +10,6 @@ function App() {
   const [displayMessages, setDisplayMessages] = useState([]);
   const [token, setToken] = useState(null);
 
-
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
   const login = useGoogleLogin({
