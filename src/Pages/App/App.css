@@ -3,6 +3,8 @@
 .App {
   text-align: center;
   font-family: 'Poppins', sans-serif;
+  background-color: #282c34;
+  color: white;
 }
 
 .content {
@@ -17,6 +19,7 @@
   padding: 20px;
   margin: 10px;
   flex-basis: 49%;
+  background-color: #5c6576;
 }
 
 .email-list {
@@ -34,12 +37,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -47,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(1px + 2vmin);
   color: white;
 }
 

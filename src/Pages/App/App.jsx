@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NavBar from '../../components/NavBar/NavBar';
+import NavBar from "../../components/NavBar/NavBar";
 import "./App.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -26,7 +26,7 @@ export default function App() {
   });
 
   const handleEmailClick = (message) => {
-    setSelectedMessage(message);  
+    setSelectedMessage(message);
   };
 
   useEffect(() => {
@@ -89,57 +89,62 @@ export default function App() {
 
   return (
     <>
+        <NavBar />
       <div className="App">
-      <NavBar />
-        <br />
-        <br />
-        {profile ? (
-          <div>
-            <img src={profile.picture} alt="user image" />
-            <h1>Hello, {profile.name}</h1>
-            <h2>
-              Please wait while I fetch: <u>{profile.email}'s</u> Email data
-            </h2>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>From</th>
-                      <th>Subject</th>
-                    </tr>
-                  </thead>
-            <div className="content">
-              <div className="email-list card">
-                <table>
-                  <tbody>
-                    {displayMessages.map((message) => (
-                      <tr key={message.id} onClick={() => handleEmailClick(message)}>
-                        <td>{message.Date}</td>
-                        <td>{message.From}</td>
-                        <td>{message.Subject}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        <div>
+          <br />
+          <br />
+          {profile ? (
+            <div>
+              <img src={profile.picture} alt="user image" />
+              <h1>Hello, {profile.name}</h1>
+              <h2>
+                Please wait while I fetch: <u>{profile.email}'s</u> Email data
+              </h2>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>From</th>
+                  <th>Subject</th>
+                </tr>
+              </thead>
+              <div className="content">
+                <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300">
+                  <table>
+                    <tbody>
+                      {displayMessages.map((message) => (
+                        <tr
+                          key={message.id}
+                          onClick={() => handleEmailClick(message)}
+                        >
+                          <td>{message.Date}</td>
+                          <td>{message.From}</td>
+                          <td>{message.Subject}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-300">
+                  <h3>Summary</h3>
+                  {selectedMessage && (
+                    <div>
+                      <p>{selectedMessage.plainTextNoLinks}</p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="summary card">
-                <h3>Summary</h3>
-                {selectedMessage && (
-                  <div>
-                    <p>{selectedMessage.plainTextNoLinks}</p>
-                  </div>
-                )}
-              </div>
+              <button onClick={logOut}>Log out</button>
+              <br />
+              <br />
             </div>
-            <button onClick={logOut}>Log out</button>
-            <br />
-            <br />
-          </div>
-        ) : (
-          <button className="border-2 border-black" onClick={() => login()}>Sign in with Google</button>
-        )}
+          ) : (
+            <button className="border-2 border-black" onClick={() => login()}>
+              Sign in with Google
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
 }
-
-
