@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import NavBar from '../../components/NavBar/NavBar';
 import "./App.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -89,6 +90,7 @@ export default function App() {
   return (
     <>
       <div className="App">
+      <NavBar />
         <br />
         <br />
         {profile ? (
@@ -133,7 +135,7 @@ export default function App() {
             <br />
           </div>
         ) : (
-          <button onClick={() => login()}>Sign in with Google</button>
+          <button className="border-2 border-black" onClick={() => login()}>Sign in with Google</button>
         )}
       </div>
     </>
