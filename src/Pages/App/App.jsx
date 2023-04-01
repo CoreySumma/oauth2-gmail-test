@@ -38,9 +38,9 @@ export default function App() {
   const aiResponse = async (selectedMessage) => {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `This is an email:${selectedMessage.plainTextNoLinks}. I need you to summarize it concisely highlighting the most important points.`,
+      prompt: `This is an email: "${selectedMessage.plainTextNoLinks}". I need you to summarize it concisely highlighting the most important points.  The email is to me so, phrase your response appropriatley.  If I just gave you an empty string or not enough information, please just respond appropriately for that as well.`,
       temperature: 0.7,
-      max_tokens: 100,
+      max_tokens: 1500,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
     });
