@@ -1,0 +1,16 @@
+.home-page {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.App-logo {
+  height: 80vmin;
+  width: auto;
+  object-fit: contain; /* This is the magic line that maintains aspect ratio ! */
+  margin-left: auto;
+  margin-right: auto;
+}
