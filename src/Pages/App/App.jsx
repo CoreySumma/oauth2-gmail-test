@@ -96,7 +96,9 @@ export default function App() {
           <br />
           {profile ? (
             <div>
+              <div className="img-container">
               <img src={profile.picture} alt="user image" />
+              </div>
               <h1>Hello, {profile.name}</h1>
               <h2>
                 Please wait while I fetch: <u>{profile.email}'s</u> Email data
