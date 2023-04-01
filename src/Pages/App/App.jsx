@@ -27,6 +27,23 @@ export default function App() {
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gmail.readonly",
   });
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+
+  function formatFrom(content) {
+    return content.replace(/<.*?>/g, '').trim();
+  }
+  
+
   const handleEmailClick = (message) => {
     setSelectedMessage(message);
   };
@@ -129,8 +146,8 @@ export default function App() {
                             key={message.id}
                             onClick={() => handleEmailClick(message)}
                           >
-                            <td>{message.Date}</td>
-                            <td>{message.From}</td>
+                            <td>{formatDate(message.Date)}</td>
+                            <td>{formatFrom(message.From)}</td>
                             <td>{message.Subject}</td>
                           </tr>
                         ))}
@@ -147,16 +164,10 @@ export default function App() {
                   )}
                 </div>
               </div>
-              <button onClick={logOut}>Log out</button>
-              <br />
-              <br />
             </div>
           ) : (
             <>
               <LandingPage />
-              <button className="border-2 border-black" onClick={() => login()}>
-                Sign in with Google
-              </button>
             </>
           )}
         </div>
