@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.pointer {
+  cursor: pointer!important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

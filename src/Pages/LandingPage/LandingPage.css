@@ -1,5 +1,6 @@
 .home-page {
   text-align: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,7 +9,7 @@
 }
 
 .App-logo {
-  height: 80vmin;
+  height: 85vmin;
   width: auto;
   object-fit: contain; /* This is the magic line that maintains aspect ratio ! */
   margin-left: auto;

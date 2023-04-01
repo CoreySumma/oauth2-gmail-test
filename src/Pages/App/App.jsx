@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import LandingPage from "../LandingPage/LandingPage";
 import "./App.css";
+import Bot from "../../assets/bot.png";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { displayMessage } from "../../utilities/utils";
@@ -40,9 +41,8 @@ export default function App() {
   }
 
   function formatFrom(content) {
-    return content.replace(/<.*?>/g, '').trim();
+    return content.replace(/<.*?>/g, "").trim();
   }
-  
 
   const handleEmailClick = (message) => {
     setSelectedMessage(message);
@@ -106,11 +106,12 @@ export default function App() {
     setToken(null);
     setMessages([]);
     setDisplayMessages([]);
+    setSelectedMessage(null);
   };
 
   return (
     <>
-      <NavBar login={login} logout={logOut}/>
+      <NavBar login={login} logout={logOut} />
       <div className="App">
         <div>
           <br />
@@ -118,7 +119,7 @@ export default function App() {
           {profile ? (
             <div>
               <div className="img-container">
-                <img src={profile.picture} alt="user image" />
+                <img className="img-profile" src={profile.picture} alt="user image" />
               </div>
               <h1>Hello, {profile.name}</h1>
               <h2>
@@ -136,7 +137,7 @@ export default function App() {
                   {isLoading ? (
                     <div className="loader-container">
                       <div className="loader"></div>
-                      <p>Loading emails...</p>
+                      <p>Loading Emails...</p>
                     </div>
                   ) : (
                     <table>
@@ -157,11 +158,12 @@ export default function App() {
                   )}
                 </div>
                 <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-200">
-                  <h3>Summary</h3>
-                  {selectedMessage && (
+                  {selectedMessage ? (
                     <div>
                       <p>{selectedMessage.plainTextNoLinks}</p>
                     </div>
+                  ) : (
+                    <img className="img-bot" src={Bot} alt="Bot" />
                   )}
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import logo from "../../assets/sausage.png";
+import "./NavBar.css";
 
 export default function NavBar({ login, logout }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,21 +27,21 @@ export default function NavBar({ login, logout }) {
             </div>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
-                <a
+                <button
                   href="#"
                   onClick={() => login()}
                   className="bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-300"
                 >
                   Log In
-                </a>
+                </button>
 
-                <a
+                <button
                   href="#"
                   onClick={() => logout()}
                   className="bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300"
                 >
                   Log Out
-                </a>
+                </button>
               </div>
             </div>
             <div className="md:hidden">

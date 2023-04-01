@@ -45,10 +45,15 @@
   margin: 10px;
 }
 
-img {
+.img-profile {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+
+.img-bot {
+  width: 100px;
+  height: 100px;
 }
 
 .content {
@@ -74,23 +79,20 @@ img {
 .email-list-item {
   border-bottom: 1px solid #1a1d21;
   margin-bottom: 1vmin;
-  cursor: pointer;
   transition: 0.1s ease-in-out;
+  cursor: pointer;
 }
 
 .email-list-item:hover {
   background-color: #1a1d21;
   color: white;
+  cursor: pointer!important;
 }
 
 .summary {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
 
 .App-header {
@@ -106,4 +108,19 @@ img {
 
 .App-link {
   color: #61dafb;
+}
+
+@media (max-width: 768px) {
+
+  .content {
+    flex-direction: column;
+  }
+  table td {
+    padding-left: 2px !;
+    padding-right: 2px;
+  }
+  .card {
+    flex-basis: auto;
+    width: 100%;
+  }
 }
