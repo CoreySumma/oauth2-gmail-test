@@ -17,8 +17,8 @@ export default function App() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [aiResult, setAiResult] = useState("");
-  
-  
+  const [aiLoading, setAiLoading] = useState(false);
+
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPEN_AI_KEY,
   });
@@ -36,6 +36,7 @@ export default function App() {
   });
 
   const aiResponse = async (selectedMessage) => {
+    setAiLoading(true);
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `This is an email: "${selectedMessage.plainTextNoLinks}". I need you to summarize it concisely highlighting the most important points.  The email is to me so, phrase your response appropriatley.  If I just gave you an empty string or not enough information, please just respond appropriately for that as well.`,
@@ -45,10 +46,10 @@ export default function App() {
       presence_penalty: 0.0,
     });
     setAiResult(response.data.choices[0].text.trim());
+    setAiLoading(false);
   };
 
-  useEffect(() => {
-  }, [setSelectedMessage]);
+  useEffect(() => {}, [setSelectedMessage]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -69,7 +70,6 @@ export default function App() {
   const handleEmailClick = (message) => {
     setSelectedMessage(message);
     aiResponse(message);
-    console.log(aiResponse);
   };
 
   useEffect(() => {
@@ -187,10 +187,18 @@ export default function App() {
                 </div>
                 <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-200">
                   {selectedMessage ? (
-                    <div>
-                      {/* <p>{selectedMessage.plainTextNoLinks}</p> */}
-                      <p>{ aiResult }</p>
-                    </div>
+                    <>
+                      {aiLoading ? (
+                        <div className="loader-container">
+                          <img className="img-bot" src={Bot} alt="Bot" />
+                        </div>
+                      ) : (
+                        <div>
+                          {/* <p>{selectedMessage.plainTextNoLinks}</p> */}
+                          <p>{aiResult}</p>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <img className="img-bot" src={Bot} alt="Bot" />
                   )}
