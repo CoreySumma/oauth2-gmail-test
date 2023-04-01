@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import LandingPage from "../LandingPage/LandingPage";
 import "./App.css";
+import { displayMessage } from "../../utilities/utils";
 import Bot from "../../assets/bot.png";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { displayMessage } from "../../utilities/utils";
+import { Configuration, OpenAIApi } from "openai";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -15,7 +16,13 @@ export default function App() {
   const [token, setToken] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [aiResult, setAiResult] = useState("");
+  
+  
+  const configuration = new Configuration({
+    apiKey: process.env.REACT_APP_OPEN_AI_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
   const login = useGoogleLogin({
@@ -27,6 +34,21 @@ export default function App() {
     scope:
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gmail.readonly",
   });
+
+  const aiResponse = async (selectedMessage) => {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `This is an email:${selectedMessage.plainTextNoLinks}. I need you to summarize it concisely highlighting the most important points.`,
+      temperature: 0.7,
+      max_tokens: 100,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+    setAiResult(response.data.choices[0].text.trim());
+  };
+
+  useEffect(() => {
+  }, [setSelectedMessage]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -46,6 +68,8 @@ export default function App() {
 
   const handleEmailClick = (message) => {
     setSelectedMessage(message);
+    aiResponse(message);
+    console.log(aiResponse);
   };
 
   useEffect(() => {
@@ -164,7 +188,8 @@ export default function App() {
                 <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-200">
                   {selectedMessage ? (
                     <div>
-                      <p>{selectedMessage.plainTextNoLinks}</p>
+                      {/* <p>{selectedMessage.plainTextNoLinks}</p> */}
+                      <p>{ aiResult }</p>
                     </div>
                   ) : (
                     <img className="img-bot" src={Bot} alt="Bot" />
