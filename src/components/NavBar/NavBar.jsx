@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import logo from "../../assets/sausage.png";
 
-export default function NavBar() {
+export default function NavBar({ login, logout }) {
   const [isOpen, setIsOpen] = useState(false);
   const genericHamburgerLine = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300`;
 
@@ -27,14 +27,16 @@ export default function NavBar() {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 <a
-                  href="/auth/google"
+                  href="#"
+                  onClick={() => login()}
                   className="bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-300"
                 >
                   Log In
                 </a>
 
                 <a
-                  href="/logout"
+                  href="#"
+                  onClick={() => logout()}
                   className="bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300"
                 >
                   Log Out
@@ -68,13 +70,15 @@ export default function NavBar() {
                 {isOpen && (
                   <div className="absolute right-0 top-16 bg-black w-48 rounded-md py-2 shadow-lg">
                     <a
-                      href="/auth/google"
+                      href="#"
+                      onClick={() => login()}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:underline transition ease-in-out duration-300"
                     >
                       Log In
                     </a>
                     <a
                       href="#"
+                      onClick={() => logout()}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:underline transition ease-in-out duration-300"
                     >
                       Log Out

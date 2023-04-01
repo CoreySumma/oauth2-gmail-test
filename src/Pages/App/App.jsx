@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar login={login} logout={logOut}/>
       <div className="App">
         <div>
           <br />
