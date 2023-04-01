@@ -115,23 +115,27 @@ export default function App() {
       <div className="App">
         <div>
           <br />
-          <br />
           {profile ? (
             <div>
               <div className="img-container">
-                <img className="img-profile" src={profile.picture} alt="user image" />
+                <img
+                  className="img-profile"
+                  src={profile.picture}
+                  alt="user image"
+                />
               </div>
               <h1>Hello, {profile.name}</h1>
               <h2>
                 Please wait while I fetch: <u>{profile.email}'s</u> Email data
               </h2>
-              <thead>
+              <br />
+              {/* <thead>
                 <tr>
                   <th>Date</th>
                   <th>From</th>
                   <th>Subject</th>
                 </tr>
-              </thead>
+              </thead> */}
               <div className="content">
                 <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-200">
                   {isLoading ? (
