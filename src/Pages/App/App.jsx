@@ -132,7 +132,7 @@ export default function App() {
                 </tr>
               </thead>
               <div className="content">
-                <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300">
+                <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-200">
                   {isLoading ? (
                     <div className="loader-container">
                       <div className="loader"></div>
@@ -145,6 +145,7 @@ export default function App() {
                           <tr
                             key={message.id}
                             onClick={() => handleEmailClick(message)}
+                            className="email-list-item"
                           >
                             <td>{formatDate(message.Date)}</td>
                             <td>{formatFrom(message.From)}</td>
@@ -155,7 +156,7 @@ export default function App() {
                     </table>
                   )}
                 </div>
-                <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-300">
+                <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-200">
                   <h3>Summary</h3>
                   {selectedMessage && (
                     <div>

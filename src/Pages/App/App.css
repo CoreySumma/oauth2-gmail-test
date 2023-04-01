@@ -71,6 +71,18 @@ img {
   overflow-y: auto;
 }
 
+.email-list-item {
+  border-bottom: 1px solid #1a1d21;
+  margin-bottom: 1vmin;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.email-list-item:hover {
+  background-color: #1a1d21;
+  color: white;
+}
+
 .summary {
   display: flex;
   justify-content: center;
