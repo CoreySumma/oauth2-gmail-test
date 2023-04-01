@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar/NavBar";
+import LandingPage from "../LandingPage/LandingPage";
 import "./App.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -12,6 +13,7 @@ export default function App() {
   const [displayMessages, setDisplayMessages] = useState([]);
   const [token, setToken] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -51,6 +53,7 @@ export default function App() {
 
   useEffect(() => {
     if (token && profile && profile.email) {
+      setIsLoading(true);
       axios
         .get(`https://gmail.googleapis.com/gmail/v1/users/me/messages`, {
           headers: {
@@ -74,6 +77,7 @@ export default function App() {
       const fetchMessages = async () => {
         const fetchedMessages = await displayMessage(token, messages);
         setDisplayMessages(fetchedMessages);
+        setIsLoading(false);
       };
       fetchMessages();
     }
@@ -89,7 +93,7 @@ export default function App() {
 
   return (
     <>
-        <NavBar />
+      <NavBar />
       <div className="App">
         <div>
           <br />
@@ -97,7 +101,7 @@ export default function App() {
           {profile ? (
             <div>
               <div className="img-container">
-              <img src={profile.picture} alt="user image" />
+                <img src={profile.picture} alt="user image" />
               </div>
               <h1>Hello, {profile.name}</h1>
               <h2>
@@ -112,20 +116,27 @@ export default function App() {
               </thead>
               <div className="content">
                 <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300">
-                  <table>
-                    <tbody>
-                      {displayMessages.map((message) => (
-                        <tr
-                          key={message.id}
-                          onClick={() => handleEmailClick(message)}
-                        >
-                          <td>{message.Date}</td>
-                          <td>{message.From}</td>
-                          <td>{message.Subject}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {isLoading ? (
+                    <div className="loader-container">
+                      <div className="loader"></div>
+                      <p>Loading emails...</p>
+                    </div>
+                  ) : (
+                    <table>
+                      <tbody>
+                        {displayMessages.map((message) => (
+                          <tr
+                            key={message.id}
+                            onClick={() => handleEmailClick(message)}
+                          >
+                            <td>{message.Date}</td>
+                            <td>{message.From}</td>
+                            <td>{message.Subject}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
                 <div className="summary card bg-white border hover:border-white hover:bg-gray-800 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-lg mr-2 transition ease-in-out duration-300">
                   <h3>Summary</h3>
@@ -141,9 +152,12 @@ export default function App() {
               <br />
             </div>
           ) : (
-            <button className="border-2 border-black" onClick={() => login()}>
-              Sign in with Google
-            </button>
+            <>
+              <LandingPage />
+              <button className="border-2 border-black" onClick={() => login()}>
+                Sign in with Google
+              </button>
+            </>
           )}
         </div>
       </div>
