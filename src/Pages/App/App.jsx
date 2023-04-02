@@ -38,7 +38,7 @@ export default function App() {
   const aiResponse = async (selectedMessage) => {
     setAiLoading(true);
     const response = await openai.createCompletion({
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo",
       prompt: `This is an email: "${selectedMessage.plainTextNoLinks}". I need you to summarize it concisely highlighting the most important points.  The email is to me so, phrase your response appropriatley.  If I just gave you an empty string or not enough information, please just respond appropriately for that as well.`,
       temperature: 0.7,
       max_tokens: 1500,
