@@ -1,8 +1,9 @@
 import axios from "axios";
+// Libraries for decoding base64 and converting HTML to text
 import { Base64 } from "js-base64";
 import { convert } from "html-to-text";
 
-
+// Function to convert base64Url to base64 just in case
 export function base64UrlToBase64(base64Url) {
   if (!base64Url) return "";
   let base64 = base64Url.replace("-", "+").replace("_", "/");
@@ -13,21 +14,6 @@ export function base64UrlToBase64(base64Url) {
   }
 
   return base64;
-}
-
-export function base64ToUint8Array(base64) {
-  try {
-    const binaryString = atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
-  } catch (err) {
-    console.error("Error in base64ToUint8Array:", err);
-    return new Uint8Array(0);
-  }
 }
 
 export function finalCleanup(text) {
@@ -56,7 +42,9 @@ export function finalCleanup(text) {
   return text.replace(curlyBracesPattern, '');
 }
 
-
+// Loop through messages object and fetch each message
+// Then, extract the payload and convert it to text
+// Finally, push the text to the fetchedMessages object
 export async function displayMessage(token, messages) {
   const fetchedMessages = [];
   for (let message of messages) {
@@ -102,10 +90,11 @@ export async function displayMessage(token, messages) {
         }
         return acc;
       }, {});
-
+      // declared variables for plain text and decoded raw
       let plainTextNoLinks = "";
       let decodedRaw = "";
       let plainText = "";
+      // options for html-to-text
       let options = {
         wordwrap: 100,
         ignoreHref: true,

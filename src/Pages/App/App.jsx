@@ -9,6 +9,7 @@ import axios from "axios";
 import { Configuration, OpenAIApi } from "openai";
 
 export default function App() {
+  // States
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -19,12 +20,15 @@ export default function App() {
   const [aiResult, setAiResult] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
 
+  // OpenAI API setup
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPEN_AI_KEY,
   });
   const openai = new OpenAIApi(configuration);
+  
+  
+  // Login with Google
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log("Login Failed:", error),
@@ -35,6 +39,7 @@ export default function App() {
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gmail.readonly",
   });
 
+  // ai fetch and response ---> set aiResult state
   const aiResponse = async (selectedMessage) => {
     setAiLoading(true);
     const response = await openai.createCompletion({
@@ -51,6 +56,7 @@ export default function App() {
 
   useEffect(() => {}, [setSelectedMessage]);
 
+  // format the date from the getMessages API call
   function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -62,16 +68,16 @@ export default function App() {
       hour12: true,
     });
   }
-
+  // Remove <> from the "from" field of the message
   function formatFrom(content) {
     return content.replace(/<.*?>/g, "").trim();
   }
-
+  // handleClick function for the email list
   const handleEmailClick = (message) => {
     setSelectedMessage(message);
     aiResponse(message);
   };
-
+// Set the login token and fetch the user's profile
   useEffect(() => {
     if (user) {
       axios
@@ -91,7 +97,8 @@ export default function App() {
         .catch((err) => console.log(err));
     }
   }, [user]);
-
+//  Fetch the user's messages so we can loop through them within utils.js fetchMessage function
+// set the messages state with the repsonse from the API call
   useEffect(() => {
     if (token && profile && profile.email) {
       setIsLoading(true);
@@ -111,8 +118,9 @@ export default function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, [profile]);
+  }, [profile, token]);
 
+  // Fetch the messages from the API call and set the displayMessages state
   useEffect(() => {
     if (token && profile && profile.email && messages.length > 0) {
       const fetchMessages = async () => {
@@ -122,8 +130,9 @@ export default function App() {
       };
       fetchMessages();
     }
-  }, [profile, messages]);
+  }, [profile, messages, token]);
 
+  // Log out function reseting state for the app
   const logOut = () => {
     setUser(null);
     setProfile(null);
