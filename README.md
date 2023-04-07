@@ -9,7 +9,7 @@
 />
 
 ## Description:
-This application uses GoogleOauth2, React, Javascript, HTML, TailwindCSS, OpenAI API, and Gmail API to fetch a list of the users email information summarize the message with AI on click.
+This application uses GoogleOauth2, React, Javascript, HTML, TailwindCSS, OpenAI API, and Gmail API to fetch a list of the users email information and summarize the message with AI by clicking on it.
 
 ## Using the App
 </div>
