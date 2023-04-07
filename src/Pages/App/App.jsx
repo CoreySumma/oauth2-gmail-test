@@ -25,8 +25,7 @@ export default function App() {
     apiKey: process.env.REACT_APP_OPEN_AI_KEY,
   });
   const openai = new OpenAIApi(configuration);
-  
-  
+
   // Login with Google
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const login = useGoogleLogin({
@@ -77,7 +76,7 @@ export default function App() {
     setSelectedMessage(message);
     aiResponse(message);
   };
-// Set the login token and fetch the user's profile
+  // Set the login token and fetch the user's profile
   useEffect(() => {
     if (user) {
       axios
@@ -97,8 +96,8 @@ export default function App() {
         .catch((err) => console.log(err));
     }
   }, [user]);
-//  Fetch the user's messages so we can loop through them within utils.js fetchMessage function
-// set the messages state with the repsonse from the API call
+  //  Fetch the user's messages so we can loop through them within utils.js fetchMessage function
+  // set the messages state with the repsonse from the API call
   useEffect(() => {
     if (token && profile && profile.email) {
       setIsLoading(true);
@@ -162,13 +161,6 @@ export default function App() {
                 Please wait while I fetch: <u>{profile.email}'s</u> Email data
               </h2>
               <br />
-              {/* <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>From</th>
-                  <th>Subject</th>
-                </tr>
-              </thead> */}
               <div className="content">
                 <div className="email-list card bg-gray-800 border hover:bg-white hover:text-gray-800 hover:border-black text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-200">
                   {isLoading ? (
@@ -203,7 +195,6 @@ export default function App() {
                         </div>
                       ) : (
                         <div>
-                          {/* <p>{selectedMessage.plainTextNoLinks}</p> */}
                           <p>{aiResult}</p>
                         </div>
                       )}
