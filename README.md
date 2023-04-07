@@ -20,8 +20,19 @@ This application uses GoogleOauth2, React, Javascript, HTML, TailwindCSS, OpenAI
 
 - Click on an email to view a short summary of the message.
 
+<div align='center'>
+
+### [Click here to get started](https://gmail-ai.netlify.app/)
+
+</div>
+</br>
+
 
 <div align='center'>
+
+<h3>
+Technologies:
+</h3>
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
