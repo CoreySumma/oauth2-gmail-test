@@ -12,7 +12,7 @@ export default function LandingPage() {
         Get the run down on all your daily emails with the click of a button.
       </p>
       <img src={logo} className="App-logo" alt="logo" />
-      <p>(Powered by OpenAI Model-4)</p>
+      <p>(Powered by OpenAI)</p>
     </>
   );
 }
